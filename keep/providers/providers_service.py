@@ -33,6 +33,14 @@ from keep.secretmanager.secretmanagerfactory import SecretManagerFactory
 logger = logging.getLogger(__name__)
 
 
+def _ensure_provider_enabled(provider_type: str) -> None:
+    if not ProvidersFactory.is_provider_enabled(provider_type):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Provider '{provider_type}' is disabled by KEEP_ENABLED_PROVIDERS",
+        )
+
+
 class ProvidersService:
     @staticmethod
     def get_all_providers() -> List[ProviderModel]:
@@ -98,6 +106,7 @@ class ProvidersService:
         provider_config: Dict[str, Any],
         validate_scopes: bool = True,
     ) -> Dict[str, Any]:
+        _ensure_provider_enabled(provider_type)
         provider_unique_id = uuid.uuid4().hex
         logger.info(
             "Installing provider",
@@ -153,6 +162,7 @@ class ProvidersService:
         validate_scopes: bool = True,
         pulling_enabled: bool = True,
     ) -> Dict[str, Any]:
+        _ensure_provider_enabled(provider_type)
         provider_unique_id = uuid.uuid4().hex
         logger.info(
             "Installing provider",

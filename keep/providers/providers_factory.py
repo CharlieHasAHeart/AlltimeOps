@@ -39,6 +39,21 @@ READ_ONLY_MODE = config("KEEP_READ_ONLY", default="false") == "true"
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_ENABLED_PROVIDERS = [
+    "keep",
+    "http",
+    "webhook",
+    "prometheus",
+    "openai",
+    "deepseek",
+    "ollama",
+    "smtp",
+    "github",
+    "jira",
+    "python",
+    "ssh",
+]
+
 
 def get_method_parameters_safe(raw_params: list[str]) -> list[str]:
     safe_params = []
@@ -61,9 +76,33 @@ class ProvidersFactory:
     _loaded_deduplication_rules_cache = None
 
     @staticmethod
+    def get_enabled_provider_types() -> set[str]:
+        configured = os.environ.get("KEEP_ENABLED_PROVIDERS", "").strip()
+        if configured:
+            enabled = {
+                provider.strip()
+                for provider in configured.split(",")
+                if provider.strip()
+            }
+            return enabled
+        return set(DEFAULT_ENABLED_PROVIDERS)
+
+    @staticmethod
+    def _normalize_provider_type(provider_type: str) -> str:
+        return provider_type.split(".")[0] if provider_type else provider_type
+
+    @staticmethod
+    def is_provider_enabled(provider_type: str) -> bool:
+        normalized = ProvidersFactory._normalize_provider_type(provider_type)
+        return normalized in ProvidersFactory.get_enabled_provider_types()
+
+    @staticmethod
     def get_provider_class(
         provider_type: str,
     ) -> BaseProvider | BaseTopologyProvider | BaseIncidentProvider:
+        if not ProvidersFactory.is_provider_enabled(provider_type):
+            raise ModuleNotFoundError(f"Provider {provider_type} is disabled")
+
         provider_type_split = provider_type.split(
             "."
         )  # e.g. "cloudwatch.logs" or "cloudwatch.metrics"
@@ -281,6 +320,7 @@ class ProvidersFactory:
 
         logger.info("Loading providers")
         providers = []
+        enabled_provider_types = ProvidersFactory.get_enabled_provider_types()
         blacklisted_providers = [
             "base_provider",
             "mock_provider",
@@ -296,6 +336,9 @@ class ProvidersFactory:
                 continue
             elif provider_directory in blacklisted_providers:
                 continue
+            provider_type = provider_directory.replace("_provider", "")
+            if provider_type not in enabled_provider_types:
+                continue
             # import it
             try:
                 module = importlib.import_module(
@@ -306,7 +349,6 @@ class ProvidersFactory:
                     provider_directory.title().replace("_", "") + "AuthConfig",
                     None,
                 )
-                provider_type = provider_directory.replace("_provider", "")
                 provider_class = ProvidersFactory.get_provider_class(provider_type)
                 scopes = (
                     provider_class.PROVIDER_SCOPES
@@ -625,6 +667,8 @@ class ProvidersFactory:
         _linked_providers = []
         for p in linked_providers:
             provider_type, provider_id, last_alert_received = p[0], p[1], p[2]
+            if not ProvidersFactory.is_provider_enabled(provider_type):
+                continue
             provider: Provider = next(
                 filter(
                     lambda provider: provider.type == provider_type,
