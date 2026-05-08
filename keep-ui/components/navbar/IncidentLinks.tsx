@@ -13,10 +13,13 @@ import {
   DEFAULT_INCIDENTS_CEL,
   DEFAULT_INCIDENTS_SORTING,
 } from "@/entities/incidents/model/models";
+import { useConfig } from "@/utils/hooks/useConfig";
+import { isMvpPageEnabled } from "./mvpVisibility";
 
 type IncidentsLinksProps = { session: Session | null };
 
 export const IncidentsLinks = ({ session }: IncidentsLinksProps) => {
+  const { data: config } = useConfig();
   const isNOCRole = session?.userRole === "noc";
   const { data: incidents, mutate } = useIncidents(
     {
@@ -31,7 +34,7 @@ export const IncidentsLinks = ({ session }: IncidentsLinksProps) => {
   );
   usePollIncidents(mutate);
 
-  if (isNOCRole) {
+  if (isNOCRole || !isMvpPageEnabled(config, "incidents")) {
     return null;
   }
 

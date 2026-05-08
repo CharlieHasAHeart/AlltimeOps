@@ -40,17 +40,14 @@ READ_ONLY_MODE = config("KEEP_READ_ONLY", default="false") == "true"
 logger = logging.getLogger(__name__)
 
 DEFAULT_ENABLED_PROVIDERS = [
-    "keep",
-    "http",
-    "webhook",
     "prometheus",
-    "openai",
+    "jira",
+    "qwen",
     "deepseek",
     "ollama",
-    "smtp",
     "github",
-    "jira",
-    "python",
+    "smtp",
+    "webhook",
     "ssh",
 ]
 

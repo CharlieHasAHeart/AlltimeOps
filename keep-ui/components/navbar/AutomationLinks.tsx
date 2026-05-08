@@ -2,12 +2,12 @@
 
 import { Subtitle } from "@tremor/react";
 import { LinkWithIcon } from "components/LinkWithIcon";
-import { Rules } from "components/icons";
+import { Workflows } from "components/icons";
 import { Session } from "next-auth";
 import { Disclosure } from "@headlessui/react";
 import { IoChevronUp } from "react-icons/io5";
-import { IoMdGitMerge } from "react-icons/io";
 import clsx from "clsx";
+import { AILink } from "./AILink";
 import { useConfig } from "@/utils/hooks/useConfig";
 import { useTenantConfiguration } from "@/utils/hooks/useTenantConfiguration";
 import { ReactNode } from "react";
@@ -15,7 +15,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { isMvpPageEnabled } from "./mvpVisibility";
 
-type NoiseReductionLinksProps = { session: Session | null };
+type AutomationLinksProps = { session: Session | null };
 
 type TogglableLinkProps = {
   disabledConfigKey: string;
@@ -46,27 +46,24 @@ const TogglableLink = ({ children, disabledConfigKey }: TogglableLinkProps) => {
   }
 };
 
-export const NoiseReductionLinks = ({ session }: NoiseReductionLinksProps) => {
+export const AutomationLinks = ({ session }: AutomationLinksProps) => {
   const isNOCRole = session?.userRole === "noc";
   const { data: envConfig } = useConfig();
   const { data: tenantConfig } = useTenantConfiguration();
-  const noiseReductionKeys = {
-    HIDE_NAVBAR_DEDUPLICATION: "HIDE_NAVBAR_DEDUPLICATION",
-    HIDE_NAVBAR_CORRELATION: "HIDE_NAVBAR_CORRELATION",
+
+  const keys = {
+    HIDE_NAVBAR_WORKFLOWS: "HIDE_NAVBAR_WORKFLOWS",
+    HIDE_NAVBAR_AI_PLUGINS: "HIDE_NAVBAR_AI_PLUGINS",
   };
 
   if (isNOCRole) {
     return null;
   }
 
-  const showDeduplication = isMvpPageEnabled(envConfig, "deduplication");
-  const showCorrelations = isMvpPageEnabled(envConfig, "correlations");
-  const hasVisibleMvpItem = showDeduplication || showCorrelations;
-  if (!hasVisibleMvpItem) {
-    return null;
-  }
+  const showWorkflows = isMvpPageEnabled(envConfig, "workflows");
+  const showAiPlugins = isMvpPageEnabled(envConfig, "ai_plugins");
 
-  if (!Object.values(noiseReductionKeys).some((key) => !tenantConfig?.[key])) {
+  if (!showWorkflows && !showAiPlugins) {
     return null;
   }
 
@@ -78,7 +75,7 @@ export const NoiseReductionLinks = ({ session }: NoiseReductionLinksProps) => {
             {tenantConfig && (
               <>
                 <Subtitle className="text-xs ml-2 text-gray-900 font-medium uppercase">
-                  NOISE REDUCTION
+                  AUTOMATION
                 </Subtitle>
                 <IoChevronUp
                   className={clsx(
@@ -98,29 +95,19 @@ export const NoiseReductionLinks = ({ session }: NoiseReductionLinksProps) => {
       </Disclosure.Button>
 
       <Disclosure.Panel as="ul" className="space-y-0.5 p-1 pr-1">
-        {showDeduplication && (
-          <TogglableLink
-            disabledConfigKey={noiseReductionKeys.HIDE_NAVBAR_DEDUPLICATION}
-          >
+        {showWorkflows && (
+          <TogglableLink disabledConfigKey={keys.HIDE_NAVBAR_WORKFLOWS}>
             <li>
-              <LinkWithIcon
-                href="/deduplication"
-                icon={IoMdGitMerge}
-                testId="deduplication"
-              >
-                <Subtitle className="text-xs">Deduplication</Subtitle>
+              <LinkWithIcon href="/workflows" icon={Workflows} testId="workflows">
+                <Subtitle className="text-xs">Workflows</Subtitle>
               </LinkWithIcon>
             </li>
           </TogglableLink>
         )}
-        {showCorrelations && (
-          <TogglableLink
-            disabledConfigKey={noiseReductionKeys.HIDE_NAVBAR_CORRELATION}
-          >
+        {showAiPlugins && (
+          <TogglableLink disabledConfigKey={keys.HIDE_NAVBAR_AI_PLUGINS}>
             <li>
-              <LinkWithIcon href="/rules" icon={Rules} testId="rules">
-                <Subtitle className="text-xs">Correlations</Subtitle>
-              </LinkWithIcon>
+              <AILink />
             </li>
           </TogglableLink>
         )}

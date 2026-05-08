@@ -50,6 +50,20 @@ export function getConfig(): InternalConfig {
   const alertSidebarFields = process.env.ALERT_SIDEBAR_FIELDS
     ? process.env.ALERT_SIDEBAR_FIELDS.split(",").map((field) => field.trim())
     : defaultAlertSidebarFields;
+  const defaultMvpPages = [
+    "incidents",
+    "feed_alerts",
+    "deduplication",
+    "correlations",
+    "workflows",
+    "ai_plugins",
+    "providers",
+  ];
+  const kasMvpPages = process.env.KAS_MVP_PAGES
+    ? process.env.KAS_MVP_PAGES.split(",")
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean)
+    : defaultMvpPages;
 
   return {
     AUTH_TYPE: authType,
@@ -98,6 +112,7 @@ export function getConfig(): InternalConfig {
       process.env.HIDE_NAVBAR_MAINTENANCE_WINDOW?.toLowerCase() === "true",
     HIDE_NAVBAR_AI_PLUGINS:
       process.env.HIDE_NAVBAR_AI_PLUGINS?.toLowerCase() === "true",
+    KAS_MVP_PAGES: kasMvpPages,
     // Ticketing integration
     KEEP_TICKETING_ENABLED:
       process.env.KEEP_TICKETING_ENABLED?.toLowerCase() === "true",

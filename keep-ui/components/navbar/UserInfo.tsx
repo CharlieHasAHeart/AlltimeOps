@@ -1,19 +1,15 @@
 "use client";
 
 import { Menu } from "@headlessui/react";
-import { LinkWithIcon } from "components/LinkWithIcon";
 import { Session } from "next-auth";
 import { useConfig } from "utils/hooks/useConfig";
 import { AuthType } from "@/utils/authenticationType";
 import Link from "next/link";
-import { VscDebugDisconnect } from "react-icons/vsc";
 import { useFloating } from "@floating-ui/react";
 import { Subtitle } from "@tremor/react";
 import UserAvatar from "./UserAvatar";
 import { useSignOut } from "@/shared/lib/hooks/useSignOut";
-import { FaSlack } from "react-icons/fa";
 import { ThemeControl } from "@/shared/ui";
-import { HiOutlineDocumentText } from "react-icons/hi2";
 
 const ONBOARDING_FLOW_ID = "flow_FHDz1hit";
 
@@ -94,29 +90,21 @@ export const UserInfo = ({ session }: UserInfoProps) => {
   return (
     <>
       <ul className="space-y-2 p-2">
-        <li>
-          <LinkWithIcon href="/providers" icon={VscDebugDisconnect}>
-            <Subtitle className="text-xs">Providers</Subtitle>
-          </LinkWithIcon>
-        </li>
         <li className="flex text-xs items-center gap-2">
-          <LinkWithIcon
-            icon={FaSlack}
+          <Link
             href="https://slack.keephq.dev/"
-            className="w-auto pr-3.5"
+            className="text-sm pl-2.5 pr-3.5 py-1 text-gray-700 hover:bg-stone-200/50 font-medium rounded-lg hover:text-orange-400 focus:ring focus:ring-orange-300"
             target="_blank"
           >
             Slack
-          </LinkWithIcon>
-          <LinkWithIcon
-            icon={HiOutlineDocumentText}
-            iconClassName="w-4"
+          </Link>
+          <Link
             href={docsUrl}
-            className="w-auto px-3.5"
+            className="text-sm px-3.5 py-1 text-gray-700 hover:bg-stone-200/50 font-medium rounded-lg hover:text-orange-400 focus:ring focus:ring-orange-300"
             target="_blank"
           >
             Docs
-          </LinkWithIcon>
+          </Link>
         </li>
         <div className="flex items-center gap-2">
           {session && <UserDropdown session={session} />}

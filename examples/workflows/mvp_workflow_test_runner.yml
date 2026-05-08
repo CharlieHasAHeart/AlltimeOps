@@ -1,0 +1,16 @@
+workflow:
+  id: mvp-workflow-test-runner
+  name: Workflow test runner
+  description: Manual test workflow for validating provider wiring and execution flow.
+  triggers:
+    - type: manual
+
+  actions:
+    - name: ping-webhook
+      provider:
+        type: webhook
+        config: "{{ providers.webhook }}"
+        with:
+          body:
+            message: "KAS workflow test runner executed"
+            timestamp: "{{ now }}"

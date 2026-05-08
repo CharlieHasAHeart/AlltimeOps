@@ -1,0 +1,27 @@
+workflow:
+  id: mvp-prometheus-ssh-incident-comment
+  name: Prometheus alert to SSH diagnosis and incident comment
+  description: Prometheus alert -> SSH diagnostic command -> add incident comment.
+  triggers:
+    - type: alert
+      providers:
+        - prometheus
+      cel: alert.status == 'firing'
+
+  steps:
+    - name: ssh-diagnosis
+      provider:
+        type: ssh
+        config: "{{ providers.ssh }}"
+        with:
+          command: "uptime && df -h && free -m"
+
+  actions:
+    - name: comment-incident
+      provider:
+        type: keep
+        with:
+          incident:
+            comment: |
+              Automated SSH diagnosis output:
+              {{ steps.ssh-diagnosis.results }}

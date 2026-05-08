@@ -1,0 +1,40 @@
+workflow:
+  id: mvp-webhook-ai-github
+  name: Webhook alert to AI summary and GitHub issue
+  description: Webhook alert -> OpenAI summary -> create GitHub issue.
+  triggers:
+    - type: alert
+      providers:
+        - webhook
+      cel: alert.status == 'firing'
+
+  steps:
+    - name: ai-summary
+      provider:
+        type: qwen
+        config: "{{ providers.qwen }}"
+        with:
+          model: gpt-4o-mini
+          prompt: |
+            Convert this alert into a concise incident ticket summary with:
+            - impact
+            - probable cause
+            - immediate actions
+
+            Alert payload:
+            {{ alert }}
+
+  actions:
+    - name: create-github-issue
+      provider:
+        type: github
+        config: "{{ providers.github }}"
+        with:
+          repository: "owner/repo"
+          title: "[Alert] {{ alert.name }}"
+          body: |
+            ## Alert
+            {{ alert }}
+
+            ## AI Summary
+            {{ steps.ai-summary.results.response }}

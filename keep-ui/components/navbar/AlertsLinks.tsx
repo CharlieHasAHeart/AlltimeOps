@@ -19,12 +19,15 @@ import { useTags } from "utils/hooks/useTags";
 import { usePresets } from "@/entities/presets/model/usePresets";
 import { useMounted } from "@/shared/lib/hooks/useMounted";
 import clsx from "clsx";
+import { useConfig } from "@/utils/hooks/useConfig";
+import { isMvpPageEnabled } from "./mvpVisibility";
 
 type AlertsLinksProps = {
   session: Session | null;
 };
 
 export const AlertsLinks = ({ session }: AlertsLinksProps) => {
+  const { data: config } = useConfig();
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const isMounted = useMounted();
 
@@ -71,6 +74,10 @@ export const AlertsLinks = ({ session }: AlertsLinksProps) => {
 
   const { isLoading: isAsyncLoading, totalCount: feedAlertsTotalCount } =
     usePresetAlertsCount("", false);
+
+  if (!isMvpPageEnabled(config, "feed_alerts")) {
+    return null;
+  }
 
   return (
     <>

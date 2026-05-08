@@ -1,0 +1,42 @@
+workflow:
+  id: mvp-prometheus-ai-smtp
+  name: Prometheus alert to AI summary and SMTP notification
+  description: Prometheus alert -> OpenAI summary -> SMTP email notification.
+  triggers:
+    - type: alert
+      providers:
+        - prometheus
+      cel: alert.status == 'firing'
+
+  steps:
+    - name: ai-summary
+      provider:
+        type: qwen
+        config: "{{ providers.qwen }}"
+        with:
+          model: gpt-4o-mini
+          prompt: |
+            Summarize this alert for on-call response. Include severity, likely impact,
+            possible root cause, and next 3 actions.
+
+            Alert payload:
+            {{ alert }}
+
+  actions:
+    - name: send-email
+      provider:
+        type: smtp
+        config: "{{ providers.smtp }}"
+        with:
+          from_email: "alerts@kas.local"
+          from_name: "KAS Alerting"
+          to_email:
+            - "oncall@example.com"
+          subject: "[KAS] {{ alert.name }}"
+          body: |
+            Alert: {{ alert.name }}
+            Status: {{ alert.status }}
+            Source: {{ alert.source }}
+
+            AI Summary:
+            {{ steps.ai-summary.results.response }}

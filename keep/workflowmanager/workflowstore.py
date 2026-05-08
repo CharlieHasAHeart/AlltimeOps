@@ -31,12 +31,26 @@ from keep.providers.providers_factory import ProvidersFactory
 from keep.workflowmanager.workflow import Workflow
 from sqlalchemy.exc import NoResultFound
 
+DEFAULT_TEMPLATE_WHITELIST = {
+    "mvp_prometheus_ai_smtp.yml",
+    "mvp_webhook_ai_github.yml",
+    "mvp_prometheus_ssh_incident_comment.yml",
+    "mvp_workflow_test_runner.yml",
+}
+
 
 class WorkflowStore:
     def __init__(self):
         self.parser = Parser()
         self.logger = logging.getLogger(__name__)
         self.celpy_env = celpy.Environment()
+
+    @staticmethod
+    def _get_template_whitelist() -> set[str]:
+        configured = os.environ.get("KEEP_WORKFLOW_TEMPLATE_WHITELIST", "").strip()
+        if configured:
+            return {item.strip() for item in configured.split(",") if item.strip()}
+        return DEFAULT_TEMPLATE_WHITELIST
 
     def get_workflow_execution(
         self,
@@ -555,6 +569,9 @@ class WorkflowStore:
         workflow_yaml_files = [
             f for f in os.listdir(workflows_dir) if f.endswith((".yaml", ".yml"))
         ]
+        workflow_yaml_files = [
+            f for f in workflow_yaml_files if f in self._get_template_whitelist()
+        ]
         if not workflow_yaml_files:
             raise FileNotFoundError(f"No workflows found in directory {workflows_dir}")
 
@@ -599,6 +616,9 @@ class WorkflowStore:
 
         workflow_yaml_files = [
             f for f in os.listdir(workflows_dir) if f.endswith((".yaml", ".yml"))
+        ]
+        workflow_yaml_files = [
+            f for f in workflow_yaml_files if f in self._get_template_whitelist()
         ]
         if not workflow_yaml_files:
             raise FileNotFoundError(f"No workflows found in directory {workflows_dir}")

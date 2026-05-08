@@ -99,6 +99,7 @@ export const config = {
      * - api (API routes)
      * - keep_big.svg (logo)
      * - keep.svg (logo)
+     * - keep.png (logo)
      * - gnip.webp (logo)
      * - api/aws-marketplace (aws marketplace)
      * - api/auth (auth)
@@ -109,6 +110,6 @@ export const config = {
      * - icons (providers' logos)
      * - api/provider-images (provider icons)
      */
-    "/((?!keep_big\\.svg$|gnip\\.webp|api/aws-marketplace$|api/auth|monitoring|_next/static|_next/image|favicon\\.ico|icons|keep\\.svg|api/provider-images).*)",
+    "/((?!keep_big\\.svg$|gnip\\.webp|api/aws-marketplace$|api/auth|monitoring|_next/static|_next/image|favicon\\.ico|icons|keep\\.svg|keep\\.png|api/provider-images).*)",
   ],
 };
