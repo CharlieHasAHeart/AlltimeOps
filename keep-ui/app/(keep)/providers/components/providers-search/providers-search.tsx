@@ -15,7 +15,7 @@ export const ProvidersSearch: FC = () => {
     <TextInput
       id="search-providers"
       icon={MagnifyingGlassIcon}
-      placeholder="Filter providers..."
+      placeholder="Filter integrations..."
       className="w-full"
       value={providersSearchString}
       onChange={handleChange}

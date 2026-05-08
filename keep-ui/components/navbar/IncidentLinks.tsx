@@ -7,6 +7,8 @@ import { Disclosure } from "@headlessui/react";
 import { IoChevronUp } from "react-icons/io5";
 import { useIncidents, usePollIncidents } from "utils/hooks/useIncidents";
 import { MdFlashOn } from "react-icons/md";
+import { RiHome6Line } from "react-icons/ri";
+import { HiOutlineServerStack } from "react-icons/hi2";
 import clsx from "clsx";
 import {
   DEFAULT_INCIDENTS_PAGE_SIZE,
@@ -34,7 +36,11 @@ export const IncidentsLinks = ({ session }: IncidentsLinksProps) => {
   );
   usePollIncidents(mutate);
 
-  if (isNOCRole || !isMvpPageEnabled(config, "incidents")) {
+  const showOverview = isMvpPageEnabled(config, "overview");
+  const showServers = isMvpPageEnabled(config, "servers");
+  const showIncidents = isMvpPageEnabled(config, "incidents");
+
+  if (isNOCRole || (!showOverview && !showServers && !showIncidents)) {
     return null;
   }
 
@@ -44,7 +50,7 @@ export const IncidentsLinks = ({ session }: IncidentsLinksProps) => {
         {({ open }) => (
           <>
             <Subtitle className="text-xs ml-2 text-gray-900 font-medium uppercase">
-              INCIDENTS
+              OPERATIONS
             </Subtitle>
             <IoChevronUp
               className={clsx({ "rotate-180": open }, "mr-2 text-slate-400")}
@@ -54,16 +60,32 @@ export const IncidentsLinks = ({ session }: IncidentsLinksProps) => {
       </Disclosure.Button>
 
       <Disclosure.Panel as="ul" className="space-y-0.5 p-1 pr-1">
-        <li className="relative">
-          <LinkWithIcon
-            href="/incidents"
-            icon={MdFlashOn}
-            count={incidents?.count}
-            testId="incidents"
-          >
-            <Subtitle className="text-xs">Incidents</Subtitle>
-          </LinkWithIcon>
-        </li>
+        {showOverview && (
+          <li className="relative">
+            <LinkWithIcon href="/overview" icon={RiHome6Line} testId="overview">
+              <Subtitle className="text-xs">Overview</Subtitle>
+            </LinkWithIcon>
+          </li>
+        )}
+        {showServers && (
+          <li className="relative">
+            <LinkWithIcon href="/servers" icon={HiOutlineServerStack} testId="servers">
+              <Subtitle className="text-xs">Servers</Subtitle>
+            </LinkWithIcon>
+          </li>
+        )}
+        {showIncidents && (
+          <li className="relative">
+            <LinkWithIcon
+              href="/incidents"
+              icon={MdFlashOn}
+              count={incidents?.count}
+              testId="incidents"
+            >
+              <Subtitle className="text-xs">Incidents</Subtitle>
+            </LinkWithIcon>
+          </li>
+        )}
       </Disclosure.Panel>
     </Disclosure>
   );

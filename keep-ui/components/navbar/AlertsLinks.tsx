@@ -75,7 +75,7 @@ export const AlertsLinks = ({ session }: AlertsLinksProps) => {
   const { isLoading: isAsyncLoading, totalCount: feedAlertsTotalCount } =
     usePresetAlertsCount("", false);
 
-  if (!isMvpPageEnabled(config, "feed_alerts")) {
+  if (!isMvpPageEnabled(config, "signals")) {
     return null;
   }
 
@@ -87,7 +87,7 @@ export const AlertsLinks = ({ session }: AlertsLinksProps) => {
             <Disclosure.Button className="w-full flex justify-between items-center px-2">
               <div className="flex items-center relative group">
                 <Subtitle className="text-xs ml-2 text-gray-900 font-medium uppercase">
-                  Alerts
+                  SIGNALS
                 </Subtitle>
                 <FiFilter
                   className={clsx(
@@ -131,7 +131,7 @@ export const AlertsLinks = ({ session }: AlertsLinksProps) => {
                       }
                     }}
                   >
-                    <Subtitle className="text-xs">Feed</Subtitle>
+                    <Subtitle className="text-xs">Signals</Subtitle>
                   </LinkWithIcon>
                 </li>
               )}

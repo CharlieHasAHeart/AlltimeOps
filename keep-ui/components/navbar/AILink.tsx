@@ -7,15 +7,26 @@ import { RiSparkling2Line } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { usePollAILogs } from "utils/hooks/useAI";
 
-export const AILink = () => {
+type AILinkProps = {
+  textOverride?: string;
+  href?: string;
+};
+
+export const AILink = ({ textOverride, href = "/ai" }: AILinkProps) => {
   const [text, setText] = useState("");
-  const [newText, setNewText] = useState("AI Plugins");
+  const [newText, setNewText] = useState(textOverride || "AI Settings");
 
   const mutateAILogs = (logs: any) => {
-    setNewText("AI iterated 🎉");
+    if (!textOverride) {
+      setNewText("AI iterated 🎉");
+    }
   };
 
   usePollAILogs(mutateAILogs);
+
+  useEffect(() => {
+    setNewText(textOverride || "AI Settings");
+  }, [textOverride]);
 
   useEffect(() => {
     let index = 0;
@@ -35,7 +46,7 @@ export const AILink = () => {
   }, [newText]);
 
   return (
-    <LinkWithIcon href="/ai" icon={RiSparkling2Line} className="w-full">
+    <LinkWithIcon href={href} icon={RiSparkling2Line} className="w-full">
       <div className="flex justify-between items-center w-full">
         <Subtitle className="text-xs break-all">{text}</Subtitle>
       </div>

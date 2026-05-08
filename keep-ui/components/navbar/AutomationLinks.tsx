@@ -60,8 +60,8 @@ export const AutomationLinks = ({ session }: AutomationLinksProps) => {
     return null;
   }
 
-  const showWorkflows = isMvpPageEnabled(envConfig, "workflows");
-  const showAiPlugins = isMvpPageEnabled(envConfig, "ai_plugins");
+  const showWorkflows = isMvpPageEnabled(envConfig, "playbooks");
+  const showAiPlugins = isMvpPageEnabled(envConfig, "actions");
 
   if (!showWorkflows && !showAiPlugins) {
     return null;
@@ -98,8 +98,8 @@ export const AutomationLinks = ({ session }: AutomationLinksProps) => {
         {showWorkflows && (
           <TogglableLink disabledConfigKey={keys.HIDE_NAVBAR_WORKFLOWS}>
             <li>
-              <LinkWithIcon href="/workflows" icon={Workflows} testId="workflows">
-                <Subtitle className="text-xs">Workflows</Subtitle>
+              <LinkWithIcon href="/workflows" icon={Workflows} testId="playbooks">
+                <Subtitle className="text-xs">Playbooks</Subtitle>
               </LinkWithIcon>
             </li>
           </TogglableLink>
@@ -107,7 +107,7 @@ export const AutomationLinks = ({ session }: AutomationLinksProps) => {
         {showAiPlugins && (
           <TogglableLink disabledConfigKey={keys.HIDE_NAVBAR_AI_PLUGINS}>
             <li>
-              <AILink />
+              <AILink textOverride="Actions" href="/actions" />
             </li>
           </TogglableLink>
         )}

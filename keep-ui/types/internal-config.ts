@@ -1,4 +1,9 @@
 export interface InternalConfig {
+  PRODUCT_MODE: string;
+  SLIM_MODE: boolean;
+  ENABLED_PAGES: string[];
+  ENABLED_PROVIDERS: string[];
+  ENABLED_WORKFLOW_TEMPLATES: string[];
   AUTH_TYPE: string;
   // Pusher
   PUSHER_DISABLED: boolean;

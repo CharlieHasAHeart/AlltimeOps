@@ -6,14 +6,16 @@ import { Disclosure } from "@headlessui/react";
 import { IoChevronUp } from "react-icons/io5";
 import clsx from "clsx";
 import { VscDebugDisconnect } from "react-icons/vsc";
+import { RiSparkling2Line } from "react-icons/ri";
 import { useConfig } from "@/utils/hooks/useConfig";
 import { isMvpPageEnabled } from "./mvpVisibility";
 
 export const SettingsLinks = () => {
   const { data: config } = useConfig();
-  const showProviders = isMvpPageEnabled(config, "providers");
+  const showProviders = isMvpPageEnabled(config, "integrations");
+  const showAiSettings = isMvpPageEnabled(config, "ai_settings");
 
-  if (!showProviders) {
+  if (!showProviders && !showAiSettings) {
     return null;
   }
 
@@ -33,11 +35,20 @@ export const SettingsLinks = () => {
       </Disclosure.Button>
 
       <Disclosure.Panel as="ul" className="space-y-0.5 p-1 pr-1">
-        <li>
-          <LinkWithIcon href="/providers" icon={VscDebugDisconnect}>
-            <Subtitle className="text-xs">Providers</Subtitle>
-          </LinkWithIcon>
-        </li>
+        {showProviders && (
+          <li>
+            <LinkWithIcon href="/providers" icon={VscDebugDisconnect}>
+              <Subtitle className="text-xs">Integrations</Subtitle>
+            </LinkWithIcon>
+          </li>
+        )}
+        {showAiSettings && (
+          <li>
+            <LinkWithIcon href="/ai" icon={RiSparkling2Line}>
+              <Subtitle className="text-xs">AI Settings</Subtitle>
+            </LinkWithIcon>
+          </li>
+        )}
       </Disclosure.Panel>
     </Disclosure>
   );

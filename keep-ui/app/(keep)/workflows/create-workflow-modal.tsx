@@ -19,14 +19,14 @@ export const CreateWorkflowModal: React.FC<CreateWorkflowModalProps> = ({
       isOpen={true}
       onClose={onClose}
       className="min-w-[80vw] min-h-[90vh] max-h-[90vh]"
-      title="Create workflow"
+      title="Create playbook"
     >
       <div className="flex flex-col min-h-0 max-w-full max-h-full overflow-hidden">
         <PageSubtitle>
           <div className="flex flex-col gap-2 mb-3 h-full w-full">
             <p>
-              Choose a workflow template to start building the automation for
-              your alerts and incidents.
+              Choose a playbook template to start building automation for your
+              signals and incidents.
             </p>
             <p>
               Or skip this, and{" "}

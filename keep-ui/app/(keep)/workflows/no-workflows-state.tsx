@@ -19,12 +19,12 @@ export function NoWorkflowsState({}: {
   return (
     <div data-testid="no-workflows-state">
       <div className="mb-3">
-        <PageTitle className="mb-3">Create your first workflow</PageTitle>
+        <PageTitle className="mb-3">Create your first playbook</PageTitle>
         <PageSubtitle>
           <div className="flex flex-col gap-2">
             <p>
-              Choose a workflow template to start building the automation for
-              your alerts and incidents.
+              Choose a playbook template to start building automation for your
+              signals and incidents.
             </p>
             <div className="flex items-center gap-2">
               <span>You can also</span>
@@ -38,7 +38,7 @@ export function NoWorkflowsState({}: {
                 icon={ArrowUpOnSquareStackIcon}
                 id="uploadWorkflowButton"
               >
-                Upload Workflows
+                Upload Playbooks
               </Button>
               <span>or</span>
               <Button

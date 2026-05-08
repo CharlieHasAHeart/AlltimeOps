@@ -195,7 +195,7 @@ export function ExistingWorkflowsState({
         <div className="flex items-center h-full w-full">
           <div className="flex flex-col justify-center items-center w-full">
             <EmptyStateCard
-              title="No workflows to display matching your filter"
+              title="No playbooks to display matching your filter"
               icon={FunnelIcon}
             >
               <Button
@@ -218,7 +218,7 @@ export function ExistingWorkflowsState({
         <div className="flex items-center h-full w-full">
           <div className="flex flex-col justify-center items-center w-full">
             <EmptyStateCard
-              title="No workflows to display matching your search"
+              title="No playbooks to display matching your search"
               icon={MagnifyingGlassIcon}
             >
               <Button
@@ -261,9 +261,9 @@ export function ExistingWorkflowsState({
         <div className="flex flex-col gap-6">
           <div className="flex justify-between items-end">
             <div>
-              <PageTitle>Workflows</PageTitle>
+              <PageTitle>Playbooks</PageTitle>
               <PageSubtitle>
-                Automate alert management with workflows
+                Automate signal and incident response with playbooks
               </PageSubtitle>
             </div>
             <div className="flex gap-2">
@@ -277,7 +277,7 @@ export function ExistingWorkflowsState({
                 icon={ArrowUpOnSquareStackIcon}
                 id="uploadWorkflowButton"
               >
-                Upload Workflows
+                Upload Playbooks
               </Button>
               <Button
                 color="orange"
@@ -286,7 +286,7 @@ export function ExistingWorkflowsState({
                 onClick={() => setIsCreateWorkflowModalOpen(true)}
                 icon={PlusIcon}
               >
-                Create Workflow
+                Create Playbook
               </Button>
             </div>
           </div>
@@ -296,7 +296,7 @@ export function ExistingWorkflowsState({
             <div className="flex flex-col gap-6">
               <SearchInput
                 className="flex-1"
-                placeholder="Search workflows"
+                placeholder="Search playbooks"
                 value={searchedValue as string}
                 onValueChange={setSearchedValue}
               />

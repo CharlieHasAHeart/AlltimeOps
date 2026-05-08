@@ -86,9 +86,9 @@ export function AIPlugins() {
     <main className="flex flex-col gap-6">
       <header className="flex justify-between items-center">
         <div>
-          <PageTitle>AI Plugins</PageTitle>
+          <PageTitle>AI Settings</PageTitle>
           <PageSubtitle>
-            For correlation, summarization, and enrichment
+            Configure AI diagnosis for correlation, summarization, and enrichment
           </PageSubtitle>
         </div>
       </header>
@@ -109,15 +109,15 @@ export function AIPlugins() {
                     className="mr-4 rounded-lg"
                   />
                   <div>
-                    <Title>No AI enabled for this tenant</Title>
+                    <Title>No AI diagnosis configured for this tenant</Title>
                     <p className="pt-2">
-                      AI plugins can correlate, enrich, or summarize your alerts
+                      AI settings can correlate, enrich, or summarize your alerts
                       and incidents by leveraging the the context within Keep
                       allowing you to gain deeper insights and respond more
                       effectively.
                     </p>
                     <p className="pt-2">
-                      By the way, AI plugins are designed to work even in
+                      These AI capabilities are designed to work even in
                       air-gapped environments. You can train models using your
                       data, so there is no need to share information with
                       third-party providers like OpenAI. Keep your data secure

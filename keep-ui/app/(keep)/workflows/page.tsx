@@ -25,6 +25,6 @@ export default async function Page() {
 }
 
 export const metadata = {
-  title: "Keep - Workflows",
-  description: "Automate your workflows with Keep.",
+  title: "KAS - Playbooks",
+  description: "Automate incident response with playbooks.",
 };

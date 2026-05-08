@@ -11,10 +11,10 @@ export default function ProvidersLayout({ children }: PropsWithChildren) {
     <FilerContextProvider>
       <div className="flex flex-col gap-6">
         <header>
-          <PageTitle>Providers</PageTitle>
+          <PageTitle>Integrations</PageTitle>
           <PageSubtitle>
-            Connect monitoring services for Keep to ingest alerts, and other
-            integrations to automate your workflows.
+            Connect tools to collect signals, run diagnostics, send
+            notifications, and create tickets.
           </PageSubtitle>
         </header>
         <main>

@@ -8,6 +8,56 @@ import {
 } from "@/utils/authenticationType";
 
 export function getConfig(): InternalConfig {
+  const productMode = process.env.NEXT_PUBLIC_PRODUCT_MODE || "platform";
+  const slimMode =
+    process.env.NEXT_PUBLIC_SLIM_MODE === "true" || productMode === "lite";
+
+  const defaultEnabledPages = [
+    "overview",
+    "servers",
+    "incidents",
+    "signals",
+    "playbooks",
+    "actions",
+    "integrations",
+    "settings",
+    "ai_settings",
+  ];
+  const enabledPages = process.env.NEXT_PUBLIC_ENABLED_PAGES
+    ? process.env.NEXT_PUBLIC_ENABLED_PAGES.split(",")
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean)
+    : defaultEnabledPages;
+
+  const defaultEnabledProviders = [
+    "prometheus",
+    "webhook",
+    "qwen",
+    "ollama",
+    "smtp",
+    "github",
+    "jira",
+    "ssh",
+    "deepseek",
+  ];
+  const enabledProviders = process.env.NEXT_PUBLIC_ENABLED_PROVIDERS
+    ? process.env.NEXT_PUBLIC_ENABLED_PROVIDERS.split(",")
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean)
+    : defaultEnabledProviders;
+
+  const defaultEnabledWorkflowTemplates = [
+    "mvp_prometheus_ai_smtp.yml",
+    "mvp_webhook_ai_github.yml",
+    "mvp_prometheus_ssh_incident_comment.yml",
+    "mvp_workflow_test_runner.yml",
+  ];
+  const enabledWorkflowTemplates = process.env.NEXT_PUBLIC_ENABLED_WORKFLOW_TEMPLATES
+    ? process.env.NEXT_PUBLIC_ENABLED_WORKFLOW_TEMPLATES.split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : defaultEnabledWorkflowTemplates;
+
   let authType = process.env.AUTH_TYPE;
   // Backward compatibility
   if (authType === MULTI_TENANT) {
@@ -66,6 +116,11 @@ export function getConfig(): InternalConfig {
     : defaultMvpPages;
 
   return {
+    PRODUCT_MODE: productMode,
+    SLIM_MODE: slimMode,
+    ENABLED_PAGES: enabledPages,
+    ENABLED_PROVIDERS: enabledProviders,
+    ENABLED_WORKFLOW_TEMPLATES: enabledWorkflowTemplates,
     AUTH_TYPE: authType,
     PUSHER_DISABLED: process.env.PUSHER_DISABLED === "true",
     // could be relative (for ingress) or absolute (e.g. Pusher)

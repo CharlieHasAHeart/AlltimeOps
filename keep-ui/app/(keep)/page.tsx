@@ -1,8 +1,8 @@
-import ProvidersPage from "./providers/page";
+import OverviewPage from "./overview/page";
 
 export const metadata = {
-  title: "Keep",
-  description: "The open-source AIOps and alert management platform.",
+  title: "KAS Overview",
+  description: "KAS lightweight AIOps operations overview.",
 };
 
-export default ProvidersPage;
+export default OverviewPage;

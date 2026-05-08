@@ -65,7 +65,7 @@ export const WorkflowTemplates: React.FC<WorkflowTemplatesProps> = () => {
                 aria-hidden={true}
               />
               <p className="mt-2 text-xl font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                No workflows to display matching your search
+                No playbooks to display matching your search
               </p>
             </div>
             <Button
@@ -109,7 +109,7 @@ export const WorkflowTemplates: React.FC<WorkflowTemplatesProps> = () => {
   return (
     <div className="flex-1 min-h-0 flex flex-col gap-3">
       <SearchInput
-        placeholder="Search workflows"
+        placeholder="Search playbooks"
         value={searchValue as string}
         onValueChange={setSearchValue}
       />
