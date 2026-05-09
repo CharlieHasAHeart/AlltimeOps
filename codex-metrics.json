@@ -1,0 +1,92 @@
+{
+  "tasks_completed": 2,
+  "tasks_deferred": 0,
+  "milestones_completed": 0,
+  "full_validation_status": "failed",
+  "known_blockers": [
+    "Pre-existing backend pytest suite failures: 124 failed, 127 errors during TASK-002 validation",
+    "Pre-existing ruff violations in tests/: 51 errors during TASK-002 validation",
+    "Baseline: backend black check fails (175 files need reformat)",
+    "Baseline: backend isort check fails across multiple providers/tests files",
+    "Baseline: backend ruff check fails (51 errors)",
+    "Baseline: backend pytest suite fails (124 failed, 127 errors)",
+    "Baseline: frontend workflow examples test fails (missing /providers_list.json)"
+  ],
+  "last_task_id": "TASK-003",
+  "last_validation_commands": [
+    "docker compose -f docker-compose.dev.yml exec keep-frontend npm run typecheck",
+    "docker compose -f docker-compose.dev.yml exec keep-frontend npm run build"
+  ],
+  "last_validation_status": "passed",
+  "product_mode": "personal_server_mvp",
+  "frontend_product_mode": "personal_server_mvp",
+  "mvp_provider_whitelist": [
+    "prometheus",
+    "webhook",
+    "qwen",
+    "ollama",
+    "smtp",
+    "github",
+    "jira",
+    "ssh"
+  ],
+  "default_cloud_llm_provider": "qwen",
+  "local_llm_provider": "ollama",
+  "api_strategy": "phased_wrappers",
+  "full_api_v1_required_in_sprint_1": false,
+  "server_health_states": [
+    "healthy",
+    "warning",
+    "critical",
+    "unknown"
+  ],
+  "internal_server_states": [
+    "disconnected",
+    "archived"
+  ],
+  "legacy_degraded_mapping": "warning",
+  "validation_command_policy": "exact_or_documented_equivalent",
+  "container_first_required": true,
+  "host_level_validation_allowed_by_default": false,
+  "legacy_terminology_policy_added": true,
+  "mvp_database_scope_policy_added": true,
+  "objective_acceptance_thresholds_added": true,
+  "primary_navigation_max_entries": 8,
+  "fast_first_value_flow_defined": true,
+  "hidden_feature_definition_added": true,
+  "clear_empty_state_definition_added": true,
+  "codex_metrics_schema_added": true,
+  "codex_metrics_valid_json": true,
+  "dependency_command_policy_conflict_resolved": true,
+  "api_050_mapping_aligned": true,
+  "validation_runtime_mapping_added": true,
+  "sprint_1_api_scope_defined": true,
+  "degraded_usage_clarified": true,
+  "agents_section_numbering_normalized": true,
+  "metrics_counter_rules_added": true,
+  "container_first_dev_enabled": true,
+  "validation": {
+    "container_build": "passed"
+  },
+  "env_examples_updated": true,
+  "secret_placeholders_only": true,
+  "task_002_scoped_cleanup_passed": true,
+  "baseline_recorded": true,
+  "baseline_validation_status": "failed",
+  "baseline_passed_commands": [
+    "curl -I http://localhost:3000",
+    "curl -i http://localhost:8080/healthcheck",
+    "docker compose -f docker-compose.dev.yml exec keep-frontend npm run build",
+    "docker compose -f docker-compose.dev.yml exec keep-frontend npm run lint",
+    "docker compose -f docker-compose.dev.yml exec keep-frontend npm run typecheck",
+    "docker compose -f docker-compose.dev.yml exec keep-frontend npm test -- --runInBand",
+    "docker compose -f docker-compose.dev.yml up -d --remove-orphans"
+  ],
+  "baseline_failed_commands": [
+    "docker compose -f docker-compose.dev.yml exec keep-backend poetry run ruff check keep tests",
+    "docker compose -f docker-compose.dev.yml exec keep-backend poetry run black --check keep tests",
+    "docker compose -f docker-compose.dev.yml exec keep-backend poetry run isort --check-only keep tests",
+    "docker compose -f docker-compose.dev.yml exec keep-backend poetry run pytest tests",
+    "docker compose -f docker-compose.dev.yml exec keep-frontend npm run test:workflow-examples"
+  ]
+}

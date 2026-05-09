@@ -12,8 +12,9 @@ import { isMvpPageEnabled } from "./mvpVisibility";
 
 export const SettingsLinks = () => {
   const { data: config } = useConfig();
-  const showProviders = isMvpPageEnabled(config, "integrations");
-  const showAiSettings = isMvpPageEnabled(config, "ai_settings");
+  const safeConfig = config ?? undefined;
+  const showProviders = isMvpPageEnabled(safeConfig, "integrations");
+  const showAiSettings = isMvpPageEnabled(safeConfig, "ai_settings");
 
   if (!showProviders && !showAiSettings) {
     return null;

@@ -60,8 +60,9 @@ export const AutomationLinks = ({ session }: AutomationLinksProps) => {
     return null;
   }
 
-  const showWorkflows = isMvpPageEnabled(envConfig, "playbooks");
-  const showAiPlugins = isMvpPageEnabled(envConfig, "actions");
+  const safeEnvConfig = envConfig ?? undefined;
+  const showWorkflows = isMvpPageEnabled(safeEnvConfig, "playbooks");
+  const showAiPlugins = isMvpPageEnabled(safeEnvConfig, "actions");
 
   if (!showWorkflows && !showAiPlugins) {
     return null;

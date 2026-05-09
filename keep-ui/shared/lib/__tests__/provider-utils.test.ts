@@ -1,5 +1,9 @@
 import { isProviderInstalled } from '../provider-utils';
-import { Provider } from '@/shared/api/providers';
+
+type ProviderLike = {
+  type: string;
+  config: Record<string, unknown>;
+};
 
 describe('provider-utils', () => {
   describe('isProviderInstalled', () => {
@@ -8,7 +12,7 @@ describe('provider-utils', () => {
         type: 'slack',
         installed: true
       };
-      const providers: Provider[] = [];
+      const providers: ProviderLike[] = [];
       
       expect(isProviderInstalled(provider, providers)).toBe(true);
     });
@@ -18,7 +22,7 @@ describe('provider-utils', () => {
         type: 'slack',
         installed: false
       };
-      const providers: Provider[] = [];
+      const providers: ProviderLike[] = [];
       
       expect(isProviderInstalled(provider, providers)).toBe(true);
     });
@@ -28,12 +32,11 @@ describe('provider-utils', () => {
         type: 'slack',
         installed: false
       };
-      const providers: Provider[] = [
+      const providers: ProviderLike[] = [
         {
-          id: '1',
           type: 'slack',
           config: { apiKey: 'some-key' }
-        } as Provider
+        }
       ];
       
       expect(isProviderInstalled(provider, providers)).toBe(false);
@@ -44,12 +47,11 @@ describe('provider-utils', () => {
         type: 'slack',
         installed: false
       };
-      const providers: Provider[] = [
+      const providers: ProviderLike[] = [
         {
-          id: '1',
           type: 'slack',
           config: {}
-        } as Provider
+        }
       ];
       
       expect(isProviderInstalled(provider, providers)).toBe(true);
@@ -60,12 +62,11 @@ describe('provider-utils', () => {
         type: 'slack',
         installed: false
       };
-      const providers: Provider[] = [
+      const providers: ProviderLike[] = [
         {
-          id: '1',
           type: 'slack',
           config: {}
-        } as Provider
+        }
       ];
       
       expect(isProviderInstalled(provider, providers)).toBe(true);
@@ -76,12 +77,11 @@ describe('provider-utils', () => {
         type: 'slack',
         installed: false
       };
-      const providers: Provider[] = [
+      const providers: ProviderLike[] = [
         {
-          id: '1',
           type: 'discord',
           config: { token: 'some-token' }
-        } as Provider
+        }
       ];
       
       expect(isProviderInstalled(provider, providers)).toBe(true);
@@ -92,17 +92,15 @@ describe('provider-utils', () => {
         type: 'slack',
         installed: false
       };
-      const providers: Provider[] = [
+      const providers: ProviderLike[] = [
         {
-          id: '1',
           type: 'discord',
           config: { token: 'some-token' }
-        } as Provider,
+        },
         {
-          id: '2',
           type: 'slack',
           config: { apiKey: 'some-key' }
-        } as Provider
+        }
       ];
       
       expect(isProviderInstalled(provider, providers)).toBe(false);
@@ -130,10 +128,10 @@ describe('provider-utils', () => {
 
     it('should handle case when provider has no type', () => {
       const provider = {
-        // @ts-ignore - Intentionally omitting type to test handling
+        // @ts-ignore - Intentionally passing invalid shape to test handling
         installed: true
       };
-      const providers: Provider[] = [];
+      const providers: ProviderLike[] = [];
       
       expect(isProviderInstalled(provider, providers)).toBe(true);
     });

@@ -43,15 +43,15 @@ export default function OverviewPage() {
       <Card>
         <Title>Quick Actions</Title>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Button color="orange" variant="secondary" as={Link} href="/servers/add">
-            Add Server
-          </Button>
-          <Button color="orange" variant="secondary" as={Link} href="/providers">
-            Configure Provider
-          </Button>
-          <Button color="orange" variant="secondary" as={Link} href="/workflows">
-            Create Playbook
-          </Button>
+          <Link href="/servers/add">
+            <Button color="orange" variant="secondary">Add Server</Button>
+          </Link>
+          <Link href="/providers">
+            <Button color="orange" variant="secondary">Configure Provider</Button>
+          </Link>
+          <Link href="/workflows">
+            <Button color="orange" variant="secondary">Create Playbook</Button>
+          </Link>
         </div>
       </Card>
     </div>

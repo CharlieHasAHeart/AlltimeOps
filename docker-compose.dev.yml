@@ -1,11 +1,12 @@
 services:
-  keep-frontend-dev:
+  keep-frontend:
     extends:
       file: docker-compose.common.yml
       service: keep-frontend-common
     environment:
-      - API_URL=http://keep-backend-dev:8080
+      - API_URL=http://keep-backend:8080
       - SENTRY_DISABLED=true
+      - NEXT_PUBLIC_PRODUCT_MODE=personal_server_mvp
     build:
       dockerfile: docker/Dockerfile.dev.ui
     volumes:
@@ -13,14 +14,28 @@ services:
       - /app/node_modules
       - /app/.next
     depends_on:
-      - keep-backend-dev
+      - keep-backend
 
-  keep-backend-dev:
+  keep-backend:
     extends:
       file: docker-compose.common.yml
       service: keep-backend-common
     build:
       dockerfile: docker/Dockerfile.dev.api
+    environment:
+      - AUTH_TYPE=NO_AUTH
+      - KEEP_API_URL=http://localhost:8080
+      - KEEP_METRICS=true
+      - SCHEDULER=false
+      - CONSUMER=false
+      - KEEP_TOPOLOGY_PROCESSOR=false
+      - WATCHER=false
+      - MAINTENANCE_WINDOWS=false
+      - USE_NGROK=false
+      - PROVISION_RESOURCES=true
+      - PRODUCT_MODE=personal_server_mvp
+      - ENABLED_PROVIDERS=prometheus,webhook,qwen,ollama,smtp,github,jira,ssh
+      - ENABLED_PAGES=overview,servers,incidents,signals,playbooks,actions,integrations,settings
     volumes:
       - .:/app
       - ./state:/state

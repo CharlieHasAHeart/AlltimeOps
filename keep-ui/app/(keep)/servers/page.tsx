@@ -13,9 +13,9 @@ export default function ServersPage() {
               monitoring infrastructure and services.
             </Subtitle>
           </div>
-          <Button color="orange" as={Link} href="/servers/add">
-            Add Server
-          </Button>
+          <Link href="/servers/add">
+            <Button color="orange">Add Server</Button>
+          </Link>
         </div>
         <Text className="mt-6">No servers connected.</Text>
       </Card>

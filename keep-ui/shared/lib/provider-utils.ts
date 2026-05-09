@@ -1,5 +1,3 @@
-import { Provider } from "@/shared/api/providers";
-
 /**
  * Determines whether a provider is properly installed and available for use.
  * 
@@ -12,8 +10,8 @@ import { Provider } from "@/shared/api/providers";
  * @returns boolean indicating if the provider is installed
  */
 export function isProviderInstalled(
-  provider: Pick<Provider, "type" | "installed">,
-  providers: Provider[]
+  provider: { type?: string; installed: boolean },
+  providers?: Array<{ type?: string; config?: Record<string, unknown> }>
 ) {
   return (
     provider.installed ||

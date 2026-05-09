@@ -1,12 +1,9 @@
-import os
 import pytest
 
-from keep.api.core.db import create_rule as create_rule_db
-from keep.api.core.dependencies import SINGLE_TENANT_UUID
 from tests.fixtures.client import client, setup_api_key, test_app  # noqa
 
 
-@pytest.mark.parametrize("test_app", ["MULTI_TENANT"], indirect=True)
+@pytest.mark.parametrize("test_app", ["NO_AUTH"], indirect=True)
 def test_create_api_key(db_session, client, test_app):
     valid_api_key = "valid_api_key"
     setup_api_key(db_session, valid_api_key)

@@ -75,7 +75,7 @@ export const AlertsLinks = ({ session }: AlertsLinksProps) => {
   const { isLoading: isAsyncLoading, totalCount: feedAlertsTotalCount } =
     usePresetAlertsCount("", false);
 
-  if (!isMvpPageEnabled(config, "signals")) {
+  if (!isMvpPageEnabled(config ?? undefined, "signals")) {
     return null;
   }
 

@@ -67,11 +67,11 @@ describe('logs-utils', () => {
     });
 
     it('should handle undefined message gracefully', () => {
-      const log: LogEntry = {
+      const log = {
         timestamp: '2023-01-01T00:00:00Z',
         message: undefined,
         context: {}
-      };
+      } as unknown as LogEntry;
       expect(getLogLineStatus(log)).toBe(null);
     });
   });

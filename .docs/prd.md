@@ -613,7 +613,7 @@ If the product is derived from a broader AIOps platform, the MVP must reduce exp
 
 ### SC-001: Clear Product Focus
 
-A new user can identify within one minute that the product is for lightweight personal-server operations.
+A new user can identify within one minute that the product is for personal-server operations from the primary navigation and Overview copy.
 
 ### SC-002: Minimal Navigation
 
@@ -621,7 +621,7 @@ The MVP has no more than eight primary navigation entries.
 
 ### SC-003: First Value Path
 
-A technically capable user can understand the first-value path: add server, receive signal, create incident, generate diagnosis, notify, and run safe diagnostic action.
+A technically capable user can complete the first-value path: open app, add server, create test signal, and see a signal or incident result without configuring enterprise providers.
 
 ### SC-004: Closed Loop Demo
 
@@ -629,11 +629,11 @@ The MVP can demonstrate a disk usage incident from signal intake to AI diagnosis
 
 ### SC-005: Reduced Integration Clutter
 
-The Integrations page shows only MVP integrations and does not display unrelated long-tail providers.
+The Integrations page shows only MVP integrations (`prometheus`, `webhook`, `qwen`, `ollama`, `smtp`, `github`, `jira`, `ssh`) and does not display unrelated long-tail providers.
 
 ### SC-006: Reduced Template Clutter
 
-The Playbooks page shows only personal-server-oriented templates.
+The Playbooks page shows only 4 MVP templates: high CPU, disk usage high, service down, and website/API unavailable.
 
 ### SC-007: Useful AI Output
 
@@ -645,7 +645,7 @@ Users can clearly distinguish read-only, low-risk, approval-required, and unsafe
 
 ### SC-009: Empty State Quality
 
-Core pages provide useful empty states with clear next actions.
+Core pages provide empty states that include what is missing, why it matters, one primary action, and no more than one secondary action.
 
 ### SC-010: Product Terminology Consistency
 

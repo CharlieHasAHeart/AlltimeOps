@@ -4,8 +4,8 @@
  */
 
 describe("Preset Navigation Logic", () => {
-  let mockRouter: { push: jest.fn };
-  let mockMutatePresets: jest.fn;
+  let mockRouter: { push: jest.MockedFunction<(url: string) => void> };
+  let mockMutatePresets: jest.MockedFunction<() => Promise<void>>;
   let originalWindowLocation: Location;
 
   beforeEach(() => {
@@ -15,11 +15,17 @@ describe("Preset Navigation Logic", () => {
     // Mock window.location
     originalWindowLocation = window.location;
     delete (window as any).location;
-    window.location = { href: "" } as any;
+    Object.defineProperty(window, "location", {
+      writable: true,
+      value: { href: "" },
+    });
   });
 
   afterEach(() => {
-    window.location = originalWindowLocation;
+    Object.defineProperty(window, "location", {
+      writable: true,
+      value: originalWindowLocation,
+    });
     jest.clearAllMocks();
   });
 

@@ -22,6 +22,7 @@ type IncidentsLinksProps = { session: Session | null };
 
 export const IncidentsLinks = ({ session }: IncidentsLinksProps) => {
   const { data: config } = useConfig();
+  const safeConfig = config ?? undefined;
   const isNOCRole = session?.userRole === "noc";
   const { data: incidents, mutate } = useIncidents(
     {
@@ -36,9 +37,9 @@ export const IncidentsLinks = ({ session }: IncidentsLinksProps) => {
   );
   usePollIncidents(mutate);
 
-  const showOverview = isMvpPageEnabled(config, "overview");
-  const showServers = isMvpPageEnabled(config, "servers");
-  const showIncidents = isMvpPageEnabled(config, "incidents");
+  const showOverview = isMvpPageEnabled(safeConfig, "overview");
+  const showServers = isMvpPageEnabled(safeConfig, "servers");
+  const showIncidents = isMvpPageEnabled(safeConfig, "incidents");
 
   if (isNOCRole || (!showOverview && !showServers && !showIncidents)) {
     return null;

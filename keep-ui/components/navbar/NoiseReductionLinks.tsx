@@ -49,6 +49,7 @@ const TogglableLink = ({ children, disabledConfigKey }: TogglableLinkProps) => {
 export const NoiseReductionLinks = ({ session }: NoiseReductionLinksProps) => {
   const isNOCRole = session?.userRole === "noc";
   const { data: envConfig } = useConfig();
+  const safeEnvConfig = envConfig ?? undefined;
   const { data: tenantConfig } = useTenantConfiguration();
   const noiseReductionKeys = {
     HIDE_NAVBAR_DEDUPLICATION: "HIDE_NAVBAR_DEDUPLICATION",
@@ -59,8 +60,8 @@ export const NoiseReductionLinks = ({ session }: NoiseReductionLinksProps) => {
     return null;
   }
 
-  const showDeduplication = isMvpPageEnabled(envConfig, "deduplication");
-  const showCorrelations = isMvpPageEnabled(envConfig, "correlations");
+  const showDeduplication = isMvpPageEnabled(safeEnvConfig, "deduplication");
+  const showCorrelations = isMvpPageEnabled(safeEnvConfig, "correlations");
   const hasVisibleMvpItem = showDeduplication || showCorrelations;
   if (!hasVisibleMvpItem) {
     return null;

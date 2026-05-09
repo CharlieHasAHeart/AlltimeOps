@@ -21,7 +21,7 @@ from starlette_context import context, request_cycle_context
 from playwright.sync_api import Page
 
 # This import is required to create the tables
-from keep.api.bl.maintenance_windows_bl import MaintenanceWindowsBl
+from keep.api.bl.maintenance_windows_bl import MaintenanceWindowsBl  # noqa: F401
 from keep.api.core.dependencies import SINGLE_TENANT_UUID
 from keep.api.core.elastic import ElasticClient
 from keep.api.models.alert import AlertStatus
